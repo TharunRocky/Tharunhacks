@@ -1,0 +1,50 @@
+package com.subset;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        //Loop to test for 3 inputs
+        for(int j=0;j<3;j++) {
+            System.out.print("Enter value for n: ");
+            int n = sc.nextInt();
+            Set<String> res = new HashSet<>();
+            String p = "";
+            for (int i = 0; i < n; i++) {
+                p += '(';
+            }
+            //Calling function to find valid parenthesis
+            gen(n, p, res, n, 0);
+            System.out.println(res.size());
+        }
+
+    }
+    //Function to generate parenthesis
+    public static void gen(int n, String p, Set<String> res, int rem, int pos){
+        if(rem==0) {
+            if(isValid(p)) res.add(p);
+            return;
+        }
+        int ind=0;
+        for(int i=0;i<n;i++){
+            //place to insert
+            ind+=1;
+            if(ind==pos) ind++;
+            String t=p.substring(0,ind)+')'+p.substring(ind);
+            gen(n,t,res,rem-1,ind);
+        }
+    }
+    //Function to check if parenthesis is valid or not
+    public static boolean isValid(String c){
+        Stack<Character> temp = new Stack<>();
+        for(int i=0;i<c.length();i++){
+            char a=c.charAt(i);
+            if(a=='(') temp.push(a);
+            else{
+                if(!temp.isEmpty()) temp.pop();
+                else return false;
+            }
+        }
+        return true;
+    }
+}
